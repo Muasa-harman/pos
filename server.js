@@ -13,7 +13,9 @@ dotenv.config();
 connectDb();
 //rest object
 const app = express();
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
+
+
 //middlwares
 app.use(cors());
 app.use(express.json());
