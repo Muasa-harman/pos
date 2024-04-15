@@ -2,17 +2,18 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotanv = require("dotenv");
+const dotenv = require("dotenv");
 const { bgCyan } = require("colors");
 require("colors");
 const connectDb = require("./config/config");
+const path = require("path");
 //dotenv config
-dotanv.config();
+dotenv.config();
 //db config
 connectDb();
 //rest object
 const app = express();
-
+const __dirname = path.resolve();
 //middlwares
 app.use(cors());
 app.use(express.json());
@@ -24,6 +25,12 @@ app.use(morgan("dev"));
 app.use("/api/items", require("./routes/itemRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/bills", require("./routes/billsRoute"));
+
+
+app.use(express.static(path.join(__dirname,"client/dist")));
+    app.get("*", (req,res)=>{
+        res.sendFile(path.join(__dirname, "client","dist","index.html"))
+    });
 
 //port
 const PORT = process.env.PORT || 8080;
